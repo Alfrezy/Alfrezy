@@ -50,11 +50,13 @@ function demo() {
   }
   return {
     login: "Alfrezy", name: "Frezzy", createdAt: new Date(Date.now() - 2.4 * 365 * 864e5).toISOString(),
-    repositories: { totalCount: 9, nodes: [
-      ...Array(4).fill({ stargazerCount: 1, primaryLanguage: { name: "Java" } }),
-      ...Array(2).fill({ stargazerCount: 0, primaryLanguage: { name: "C" } }),
-      { stargazerCount: 1, primaryLanguage: { name: "CSS" } },
-      { stargazerCount: 0, primaryLanguage: { name: "Python" } },
+        repositories: { totalCount: 7, nodes: [
+      { stargazerCount: 0, primaryLanguage: { name: "JavaScript" } },
+      { stargazerCount: 2, primaryLanguage: { name: "CSS" } },
+      { stargazerCount: 1, primaryLanguage: null },
+      { stargazerCount: 1, primaryLanguage: { name: "Python" } },
+      { stargazerCount: 0, primaryLanguage: { name: "Java" } },
+      { stargazerCount: 0, primaryLanguage: { name: "C" } },
       { stargazerCount: 0, primaryLanguage: { name: "C#" } },
     ] },
     contributionsCollection: { totalCommitContributions: 84, totalPullRequestContributions: 3, totalIssueContributions: 0,
