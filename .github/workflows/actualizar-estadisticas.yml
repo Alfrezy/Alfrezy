@@ -1,0 +1,46 @@
+name: Actualizar estadísticas
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # todos los días (hora UTC)
+  workflow_dispatch:        # permite ejecutarlo a mano
+  push:
+    branches: [main]
+    paths: ["scripts/generar-estadisticas.mjs"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-estadisticas
+  cancel-in-progress: true
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generar tarjeta de estadísticas
+        env:
+          GH_USERNAME: ${{ github.repository_owner }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTPUT_PATH: assets/estadisticas.svg
+        run: node scripts/generar-estadisticas.mjs
+
+      - name: Guardar cambios
+        run: |
+          if git diff --quiet -- assets/estadisticas.svg; then
+            echo "Sin cambios."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/estadisticas.svg
+          git commit -m "chore: actualizar estadísticas"
+          git push
